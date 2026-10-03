@@ -1,0 +1,40 @@
+from transliterate import defaults
+
+__title__ = "transliterate.conf"
+__author__ = "Artur Barseghyan"
+__copyright__ = "2013-2017 Artur Barseghyan"
+__license__ = "GPL 2.0/LGPL 2.1"
+__all__ = (
+    "get_setting",
+    "reset_to_defaults_settings",
+    "set_setting",
+    "settings",
+)
+
+
+class Settings(object):
+    def __init__(self):
+        self._settings = {}
+
+    def set(self, name, value):
+        self._settings[name] = value
+
+    def get(self, name, default=None):
+        if name in self._settings:
+            return self._settings.get(name, default)
+        elif hasattr(defaults, name):
+            return getattr(defaults, name, default)
+        else:
+            return default
+
+    def reset_to_defaults(self):
+        self._settings = {}
+
+
+settings = Settings()
+
+get_setting = settings.get
+
+set_setting = settings.set
+
+reset_to_defaults_settings = settings.reset_to_defaults
